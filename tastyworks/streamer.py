@@ -43,6 +43,22 @@ class DataStreamer(object):
 
         return self.nonce
 
+    async def add_timeseries_sub(self, values):
+        LOGGER.debug(f'Adding timeseries subscription: {values}')
+        # TODO: fragment message if need be, max 64k
+        message = [
+            {
+                'channel': '/service/sub',
+                'clientId': self.client_id,
+                'id': self._get_nonce(),
+                'data': {
+                    'addTimeSeries': values
+                }
+            }
+        ]
+
+        await self._send_msg(message)
+
     async def add_data_sub(self, values):
         LOGGER.debug(f'Adding subscription: {values}')
         # TODO: fragment message if need be, max 64k

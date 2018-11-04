@@ -1,7 +1,7 @@
 import json
 import logging
 
-from tastyworks.dxfeed import greeks, quote
+from tastyworks.dxfeed import candle, greeks, quote
 
 LOGGER = logging.getLogger(__name__)
 KEY_MAP = {}
@@ -24,5 +24,7 @@ def map_message(message):
         res = quote.Quote(data=data)
     elif greeks.Greeks.DXFEED_TEXT == msg_type:
         res = greeks.Greeks(data=data)
+    elif candle.Candle.DXFEED_TEXT == msg_type:
+        res = candle.Candle(data=data)
 
     return res
